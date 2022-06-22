@@ -24,6 +24,7 @@ export class TodosAccess {
 
   async getTodosForUser(userId: String): Promise<any> {
     console.log('Getting all todos of userId: ', userId)
+    
     const result = await this.docClient
       .query({
         TableName: this.todoTable,
@@ -36,6 +37,10 @@ export class TodosAccess {
       .promise();
     const items = result.Items
 
+    logger.info("Get all todo", {
+      userId: userId,
+      date: new Date().toISOString
+    })
     return items as TodoItem[];
   }
 
@@ -49,6 +54,11 @@ export class TodosAccess {
       })
       .promise();
 
+    logger.info("Create a new todo", {
+      userId: todo.userId,
+      todoId: todo.todoId,
+      date: new Date().toISOString
+    })
     return todo;
   }
 
@@ -87,6 +97,11 @@ export class TodosAccess {
         }
       }
     );
+    logger.info("Update a todo", {
+      userId: userId,
+      todoId: todoId,
+      date: new Date().toISOString
+    })
     return updatedTodo
   }
 
@@ -110,6 +125,11 @@ export class TodosAccess {
         }
       }
     );
+    logger.info("Delete a todo", {
+      userId: userId,
+      todoId: todoId,
+      date: new Date().toISOString
+    })
   }
 
   async createAttachmentPresignedUrl(
@@ -144,6 +164,11 @@ export class TodosAccess {
         }
       }
     );
+    logger.info("Creata a signedUrl", {
+      userId: userId,
+      todoId: todoId,
+      date: new Date().toISOString
+    })
     return attachmentUrl;
   }
 }
