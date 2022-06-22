@@ -1,5 +1,5 @@
 # TODO: Change the name of the org
-org: anhld41-fpt-software
+org: anhld41
 app: serverless-todo-app
 service: serverless-todo-app
 
@@ -57,17 +57,16 @@ functions:
           authorizer: Auth
     iamRoleStatements:
       - Effect: Allow
-      Action:
-        - dynamodb:Scan
-        - dynamodb:GetItem
-        - dynamodb:Query
-      Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODOS_TABLE}
+        Action:
+          - dynamodb:Scan
+          - dynamodb:GetItem
+          - dynamodb:Query
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODOS_TABLE}
       - Effect: Allow
         Action:
           - dynamodb:Query
           - dynamodb:Scan
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODOS_TABLE}/index/${self:provider.environment.TODOS_CREATED_AT_INDEX}
-
 
   # TODO: Configure this function -
   # Provide iamRoleStatements property. Decide the Actions and AWS Resource.
@@ -102,7 +101,7 @@ functions:
           cors: true
           request:
             schema:
-              application/json: ${file(models/update-todo-request.json)}
+              application/json: ${file(models/update-todo-model.json)}
     iamRoleStatements:
       - Effect: Allow
         Action:
@@ -199,9 +198,9 @@ resources:
         CorsConfiguration:
           CorsRules:
             - AllowedOrigins:
-                - "*"
+                - '*'
               AllowedHeaders:
-                - "*"
+                - '*'
               AllowedMethods:
                 - GET
                 - PUT
@@ -217,13 +216,13 @@ resources:
       Properties:
         PolicyDocument:
           Id: MyPolicy
-          Version: "2012-10-17"
+          Version: '2012-10-17'
           Statement:
             - Sid: PublicReadForGetBucketObjects
               Effect: Allow
-              Principal: "*"
+              Principal: '*'
               Action:
                 - s3:GetObject
                 - s3:PutObject
-              Resource: "arn:aws:s3:::${self:provider.environment.ATTACHMENT_S3_BUCKET}/*"
+              Resource: 'arn:aws:s3:::${self:provider.environment.ATTACHMENT_S3_BUCKET}/*'
         Bucket: !Ref AttachmentsBucket
