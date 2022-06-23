@@ -5,7 +5,7 @@ import * as middy from 'middy'
 import { cors } from 'middy/middlewares'
 
 import { getTodosForUser } from '../../businessLogic/todos'
-import { getUserId } from '../utils';
+import { getUserId, sendMessageToAllClient } from '../utils';
 
 // TODO: Get all TODO items for a current user
 export const handler = middy(
@@ -14,7 +14,7 @@ export const handler = middy(
     console.log("Processing event: ", event);
     const userId = getUserId(event);
     const todos = await getTodosForUser(userId);
-
+    sendMessageToAllClient(`UserId ${userId} has just get all of his/her todos`)
     return {
       statusCode: 200,
       body: JSON.stringify({
