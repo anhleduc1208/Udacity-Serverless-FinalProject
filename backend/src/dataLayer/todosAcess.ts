@@ -39,6 +39,7 @@ export class TodosAccess {
 
     logger.info("Get all todo", {
       userId: userId,
+      items: JSON.stringify(items),
       date: new Date().toISOString
     })
     return items as TodoItem[];
